@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="DEEL1_App" location="C:/Xilinx/Projects/EOS_Opdracht/DEEL1/vitis/DEEL1_App" platform="C:/Xilinx/Projects/EOS_Opdracht/DEEL1/vitis/DEEL1_Platform/export/DEEL1_Platform/DEEL1_Platform.xpfm" platformUID="xilinx:minized::0.0(custom)" systemProject="DEEL1_App_system" sysConfig="DEEL1_Platform" runtime="C/C++" cpu="freertos10_xilinx_domain" cpuInstance="ps7_cortexa9_0" os="freertos10_xilinx" mssSignature="430237ab405296f6e6a0e3012869ddda">
+  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.16306542">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+    <lastBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <configuration name="Release" id="xilinx.gnu.armv7.exe.release.1890018371" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <template appTemplateName="freertos_hello_world"/>
+</sdkproject:SdkProject>

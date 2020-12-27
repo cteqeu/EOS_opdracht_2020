@@ -53,6 +53,14 @@ void MatrixEncoder::print(unsigned char *drawing) {
             }
         }
     }
+
+      for (short int l = 0; l < 8; l++) {
+        Serial.print("bitstream - ");
+        Serial.println(l);
+        Serial.print("value = ");
+        Serial.println(bitStream[l]);
+      }
+
   
   for (short int j = 0; j < 8; j++)
   {

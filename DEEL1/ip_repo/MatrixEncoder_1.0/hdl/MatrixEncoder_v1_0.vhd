@@ -16,7 +16,11 @@ entity MatrixEncoder_v1_0 is
 	);
 	port (
 		-- Users to add ports here
-
+         sh_cp       :   out std_logic;
+         st_cp       :   out std_logic;
+         ds          :   out std_logic;
+         clk_10Mhz   :   in std_logic;
+         reset       :   in std_logic;
 		-- User ports ends
 		-- Do not modify the ports beyond this line
 
@@ -55,7 +59,12 @@ architecture arch_imp of MatrixEncoder_v1_0 is
 		C_S_AXI_ADDR_WIDTH	: integer	:= 4
 		);
 		port (
-		S_AXI_ACLK	: in std_logic;
+		sh_cp           : out std_logic;
+        st_cp           : out std_logic;
+        ds              : out std_logic;
+        reset           : in std_logic;
+        clk_10Mhz       : in std_logic;
+		S_AXI_ACLK	    : in std_logic;
 		S_AXI_ARESETN	: in std_logic;
 		S_AXI_AWADDR	: in std_logic_vector(C_S_AXI_ADDR_WIDTH-1 downto 0);
 		S_AXI_AWPROT	: in std_logic_vector(2 downto 0);
@@ -88,6 +97,11 @@ MatrixEncoder_v1_0_S00_AXI_inst : MatrixEncoder_v1_0_S00_AXI
 		C_S_AXI_ADDR_WIDTH	=> C_S00_AXI_ADDR_WIDTH
 	)
 	port map (
+	    sh_cp           => sh_cp,
+        st_cp           => st_cp,
+        ds              => ds,
+        reset           => reset,
+        clk_10Mhz       => clk_10Mhz,
 		S_AXI_ACLK	=> s00_axi_aclk,
 		S_AXI_ARESETN	=> s00_axi_aresetn,
 		S_AXI_AWADDR	=> s00_axi_awaddr,

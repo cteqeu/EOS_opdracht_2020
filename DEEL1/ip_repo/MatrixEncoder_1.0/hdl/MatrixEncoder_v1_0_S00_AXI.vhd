@@ -16,7 +16,11 @@ entity MatrixEncoder_v1_0_S00_AXI is
 	);
 	port (
 		-- Users to add ports here
-
+         sh_cp       :   out std_logic;
+         st_cp       :   out std_logic;
+         ds          :   out std_logic;
+         clk_10Mhz   :   in std_logic;
+         reset       :   in std_logic;
 		-- User ports ends
 		-- Do not modify the ports beyond this line
 
@@ -117,6 +121,17 @@ architecture arch_imp of MatrixEncoder_v1_0_S00_AXI is
 	signal reg_data_out	:std_logic_vector(C_S_AXI_DATA_WIDTH-1 downto 0);
 	signal byte_index	: integer;
 	signal aw_en	: std_logic;
+	
+	component MatrixEncoder
+        Port (
+            sh_cp       :   out std_logic;
+            st_cp       :   out std_logic;
+            ds          :   out std_logic;
+            data        :   in std_logic_vector(15 downto 0);
+            clk_10MHz   :   in  std_logic;
+            reset : in std_logic
+        );
+     end component;
 
 begin
 	-- I/O Connections assignments
@@ -385,6 +400,15 @@ begin
 
 
 	-- Add user logic here
+	core1 : MatrixEncoder
+        port map(
+            data => slv_reg0(15 downto 0),
+            sh_cp => sh_cp,
+            st_cp => st_cp,
+            ds => ds,
+            clk_10Mhz => clk_10Mhz,
+            reset => reset
+        );
 
 	-- User logic ends
 
