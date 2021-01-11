@@ -38,6 +38,7 @@ Inleveren:
 
 URL of Petalinux Booting
  - <https://www.youtube.com/watch?v=mWeXU-CgCVo>
+ 
 URL of Petalinux Recognizing USB
  - <https://www.youtube.com/watch?v=cmzjKESEkQg>
 
