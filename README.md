@@ -36,6 +36,11 @@ Inleveren:
 
 **IMPORTANT**
 
+URL of Petalinux Booting
+ - <https://www.youtube.com/watch?v=mWeXU-CgCVo>
+URL of Petalinux Recognizing USB
+ - <https://www.youtube.com/watch?v=cmzjKESEkQg>
+
 Ingeleverde bestanden zie `/DEEL2/dist`
 
 ---
