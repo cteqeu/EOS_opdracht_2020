@@ -1,0 +1,205 @@
+14:24:28 INFO  : Launching XSCT server: xsct -n  -interactive /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/temp_xsdb_launch_script.tcl
+14:24:29 INFO  : Registering command handlers for Vitis TCF services
+14:24:30 INFO  : XSCT server has started successfully.
+14:24:30 INFO  : Successfully done setting XSCT server connection channel  
+14:24:30 INFO  : plnx-install-location is set to ''
+14:24:30 INFO  : Successfully done setting workspace for the tool. 
+14:24:30 INFO  : Successfully done query RDI_DATADIR 
+14:24:30 INFO  : Platform repository initialization has completed.
+14:25:06 INFO  : Result from executing command 'getProjects': Deel1
+14:25:06 INFO  : Result from executing command 'getPlatforms': 
+14:25:11 INFO  : Successfully done sdx_reload_mss "/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/ps7_cortexa9_0/freertos10_xilinx_domain/bsp/system.mss"
+14:25:17 INFO  : (SwPlaform) Successfully done setParamInSpec 
+14:25:18 INFO  : (SwPlaform) Successfully done setParamInSpec 
+14:25:18 INFO  : (SwPlatform) Successfully done update_mss 
+14:25:19 INFO  : Successfully done sdx_reload_mss "/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/ps7_cortexa9_0/freertos10_xilinx_domain/bsp/system.mss"
+14:25:38 INFO  : Result from executing command 'getProjects': Deel1
+14:25:38 INFO  : Result from executing command 'getPlatforms': Deel1|/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/export/Deel1/Deel1.xpfm
+14:27:20 INFO  : Checking for BSP changes to sync application flags for project 'Deel1_App'...
+14:27:26 INFO  : Checking for BSP changes to sync application flags for project 'Deel1_App'...
+14:27:29 INFO  : Checking for BSP changes to sync application flags for project 'Deel1_App'...
+14:27:37 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+14:27:38 INFO  : Jtag cable 'Avnet MiniZed V1 1234-oj1A' is selected.
+14:27:38 INFO  : 'jtag frequency' command is executed.
+14:27:38 INFO  : Context for 'APU' is selected.
+14:27:38 INFO  : System reset is completed.
+14:27:41 INFO  : 'after 3000' command is executed.
+14:27:41 INFO  : 'targets -set -filter {jtag_cable_name =~ "Avnet MiniZed V1 1234-oj1A" && level==0 && jtag_device_ctx=="jsn-MiniZed V1-1234-oj1A-13723093-0"}' command is executed.
+14:27:42 INFO  : FPGA configured successfully with bitstream "/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/bitstream/design_1_wrapper.bit"
+14:27:42 INFO  : Context for 'APU' is selected.
+14:27:42 INFO  : Hardware design and registers information is loaded from '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/export/Deel1/hw/design_1_wrapper.xsa'.
+14:27:42 INFO  : 'configparams force-mem-access 1' command is executed.
+14:27:42 INFO  : Context for 'APU' is selected.
+14:27:42 INFO  : Sourcing of '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/psinit/ps7_init.tcl' is done.
+14:27:42 INFO  : 'ps7_init' command is executed.
+14:27:42 INFO  : 'ps7_post_config' command is executed.
+14:27:42 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+14:27:42 INFO  : The application '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/Debug/Deel1_App.elf' is downloaded to processor 'ps7_cortexa9_0'.
+14:27:42 INFO  : 'configparams force-mem-access 0' command is executed.
+14:27:42 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Avnet MiniZed V1 1234-oj1A" && level==0 && jtag_device_ctx=="jsn-MiniZed V1-1234-oj1A-13723093-0"}
+fpga -file /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/bitstream/design_1_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/export/Deel1/hw/design_1_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/Debug/Deel1_App.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+14:27:42 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+14:27:42 INFO  : 'con' command is executed.
+14:27:42 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+14:27:42 INFO  : Launch script is exported to file '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/.sdk/launch_scripts/single_application_debug/debugger_deel1_app-default.tcl'
+14:28:05 INFO  : Disconnected from the channel tcfchan#2.
+14:28:06 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+14:28:06 INFO  : Jtag cable 'Avnet MiniZed V1 1234-oj1A' is selected.
+14:28:06 INFO  : 'jtag frequency' command is executed.
+14:28:06 INFO  : Context for 'APU' is selected.
+14:28:06 INFO  : System reset is completed.
+14:28:09 INFO  : 'after 3000' command is executed.
+14:28:09 INFO  : 'targets -set -filter {jtag_cable_name =~ "Avnet MiniZed V1 1234-oj1A" && level==0 && jtag_device_ctx=="jsn-MiniZed V1-1234-oj1A-13723093-0"}' command is executed.
+14:28:10 INFO  : FPGA configured successfully with bitstream "/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/bitstream/design_1_wrapper.bit"
+14:28:10 INFO  : Context for 'APU' is selected.
+14:28:10 INFO  : Hardware design and registers information is loaded from '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/export/Deel1/hw/design_1_wrapper.xsa'.
+14:28:10 INFO  : 'configparams force-mem-access 1' command is executed.
+14:28:10 INFO  : Context for 'APU' is selected.
+14:28:10 INFO  : Sourcing of '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/psinit/ps7_init.tcl' is done.
+14:28:10 INFO  : 'ps7_init' command is executed.
+14:28:10 INFO  : 'ps7_post_config' command is executed.
+14:28:10 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+14:28:10 INFO  : The application '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/Debug/Deel1_App.elf' is downloaded to processor 'ps7_cortexa9_0'.
+14:28:10 INFO  : 'configparams force-mem-access 0' command is executed.
+14:28:10 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Avnet MiniZed V1 1234-oj1A" && level==0 && jtag_device_ctx=="jsn-MiniZed V1-1234-oj1A-13723093-0"}
+fpga -file /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/bitstream/design_1_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/export/Deel1/hw/design_1_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/Debug/Deel1_App.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+14:28:10 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+14:28:10 INFO  : 'con' command is executed.
+14:28:10 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+14:28:10 INFO  : Launch script is exported to file '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/.sdk/launch_scripts/single_application_debug/debugger_deel1_app-default.tcl'
+14:29:30 INFO  : Disconnected from the channel tcfchan#3.
+14:29:31 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+14:29:31 INFO  : Jtag cable 'Avnet MiniZed V1 1234-oj1A' is selected.
+14:29:31 INFO  : 'jtag frequency' command is executed.
+14:29:31 INFO  : Context for 'APU' is selected.
+14:29:31 INFO  : System reset is completed.
+14:29:34 INFO  : 'after 3000' command is executed.
+14:29:34 INFO  : 'targets -set -filter {jtag_cable_name =~ "Avnet MiniZed V1 1234-oj1A" && level==0 && jtag_device_ctx=="jsn-MiniZed V1-1234-oj1A-13723093-0"}' command is executed.
+14:29:35 INFO  : FPGA configured successfully with bitstream "/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/bitstream/design_1_wrapper.bit"
+14:29:35 INFO  : Context for 'APU' is selected.
+14:29:35 INFO  : Hardware design and registers information is loaded from '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/export/Deel1/hw/design_1_wrapper.xsa'.
+14:29:35 INFO  : 'configparams force-mem-access 1' command is executed.
+14:29:35 INFO  : Context for 'APU' is selected.
+14:29:35 INFO  : Sourcing of '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/psinit/ps7_init.tcl' is done.
+14:29:36 INFO  : 'ps7_init' command is executed.
+14:29:36 INFO  : 'ps7_post_config' command is executed.
+14:29:36 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+14:29:36 INFO  : The application '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/Debug/Deel1_App.elf' is downloaded to processor 'ps7_cortexa9_0'.
+14:29:36 INFO  : 'configparams force-mem-access 0' command is executed.
+14:29:36 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Avnet MiniZed V1 1234-oj1A" && level==0 && jtag_device_ctx=="jsn-MiniZed V1-1234-oj1A-13723093-0"}
+fpga -file /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/bitstream/design_1_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/export/Deel1/hw/design_1_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/Debug/Deel1_App.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+14:29:36 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+14:29:36 INFO  : 'con' command is executed.
+14:29:36 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+14:29:36 INFO  : Launch script is exported to file '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/.sdk/launch_scripts/single_application_debug/debugger_deel1_app-default.tcl'
+14:30:14 INFO  : Disconnected from the channel tcfchan#4.
+14:30:15 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+14:30:15 INFO  : Jtag cable 'Avnet MiniZed V1 1234-oj1A' is selected.
+14:30:15 INFO  : 'jtag frequency' command is executed.
+14:30:15 INFO  : Context for 'APU' is selected.
+14:30:15 INFO  : System reset is completed.
+14:30:18 INFO  : 'after 3000' command is executed.
+14:30:18 INFO  : 'targets -set -filter {jtag_cable_name =~ "Avnet MiniZed V1 1234-oj1A" && level==0 && jtag_device_ctx=="jsn-MiniZed V1-1234-oj1A-13723093-0"}' command is executed.
+14:30:19 INFO  : FPGA configured successfully with bitstream "/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/bitstream/design_1_wrapper.bit"
+14:30:19 INFO  : Context for 'APU' is selected.
+14:30:19 INFO  : Hardware design and registers information is loaded from '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/export/Deel1/hw/design_1_wrapper.xsa'.
+14:30:19 INFO  : 'configparams force-mem-access 1' command is executed.
+14:30:19 INFO  : Context for 'APU' is selected.
+14:30:19 INFO  : Sourcing of '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/psinit/ps7_init.tcl' is done.
+14:30:20 INFO  : 'ps7_init' command is executed.
+14:30:20 INFO  : 'ps7_post_config' command is executed.
+14:30:20 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+14:30:20 INFO  : The application '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/Debug/Deel1_App.elf' is downloaded to processor 'ps7_cortexa9_0'.
+14:30:20 INFO  : 'configparams force-mem-access 0' command is executed.
+14:30:20 INFO  : ----------------XSDB Script----------------
+connect -url tcp:127.0.0.1:3121
+targets -set -nocase -filter {name =~"APU*"}
+rst -system
+after 3000
+targets -set -filter {jtag_cable_name =~ "Avnet MiniZed V1 1234-oj1A" && level==0 && jtag_device_ctx=="jsn-MiniZed V1-1234-oj1A-13723093-0"}
+fpga -file /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/bitstream/design_1_wrapper.bit
+targets -set -nocase -filter {name =~"APU*"}
+loadhw -hw /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1/export/Deel1/hw/design_1_wrapper.xsa -mem-ranges [list {0x40000000 0xbfffffff}] -regs
+configparams force-mem-access 1
+targets -set -nocase -filter {name =~"APU*"}
+source /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/_ide/psinit/ps7_init.tcl
+ps7_init
+ps7_post_config
+targets -set -nocase -filter {name =~ "*A9*#0"}
+dow /home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/Deel1_App/Debug/Deel1_App.elf
+configparams force-mem-access 0
+----------------End of Script----------------
+
+14:30:20 INFO  : Context for processor 'ps7_cortexa9_0' is selected.
+14:30:20 INFO  : 'con' command is executed.
+14:30:20 INFO  : ----------------XSDB Script (After Launch)----------------
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con
+----------------End of Script----------------
+
+14:30:20 INFO  : Launch script is exported to file '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis/.sdk/launch_scripts/single_application_debug/debugger_deel1_app-default.tcl'
+14:33:58 INFO  : Projects exported to '/home/jens/Xilinx/EOS_opdracht_2020/DEEL1/vitis_export_archive.ide.zip'
+14:34:38 INFO  : Disconnected from the channel tcfchan#5.
