@@ -1,0 +1,219 @@
+/* ----- Clone Avnet Repositories ----- */
+
+1) In terminal in /home/<USER>:
+
+	mkdir Avnet20201;
+	cd Avnet20201;
+	git clone https://github.com/Avnet/petalinux.git -b 2020.1;
+	git clone https://github.com/Avnet/hdl.git -b 2020.1;
+	git clone https://github.com/Avnet/bdf.git -b master;
+
+
+
+
+
+/* ----- Source environment with Vivado and petalinux settings ----- */
+
+2) 
+	source /opt/Xilinx/Vivado/2020.1/settings64.sh
+	source /opt/pkg/petalinux/settings.sh
+
+
+
+
+
+/* ----- Build full fledged petalinux project and package it to BSP ----- */
+
+3) In terminal in /home/<USER>/Avnet202001/petalinux/scripts;
+	
+	./make_minized.sh;
+
+
+
+
+
+/* ----- Clean-Up ----- */
+
+4) In vivado - Clean File: 
+	4a) These 14 Blocks should be left:
+		0. axi_intc_0
+		1. clk_wiz_0
+		2. interrupt_concat
+		3. proc_sys_reset_41MHz
+		4. proc_sys_reset_50MHz
+		5. proc_sys_reset_100MHz
+		6. proc_sys_reset_142MHz
+		7. proc_sys_reset_1661MHz
+		8. proc_sys_reset_200MHz
+		9. ps7
+		10. ps7_axi_periph
+		11. wireless_mgr_0
+		12. xlconcat_0
+		13. xlconstant_1 
+	4b) File >> Export >> Export Hardware >> Expandable >> 
+	    Pre-Synthesis [+include bitstream] >> Add the constraints of this projects
+
+
+
+
+
+/* ----- Now we have new XSA Create new PetaLinux project based on generated BSP ----- */
+
+5) In terminal /home/<USER>/Avnet202001/petalinux/projects:
+	
+	5a) petalinux-create -t project -s minized_2020_1.bsp -n MinizedFromBSP
+	5b) Change referenced.xsa to the new created file: 
+	    (Copy .xsa file to home/<USER>/Avnet20201/petalinux/projects/minized_2020_1) 
+		In terminal:
+			cd MinizedFromBSP
+			petalinux-config --get-hw-description=/home/<USER>/Avnet20201/petalinux/projects/minized_2020_1
+
+
+
+
+
+/* ----- Enable FPGA Manager (for PYNQ) & Add extra.ext4 image format ----- */
+6) Photo's shown here:
+	https://www.hackster.io/bartosz-rycko/minized-2020-1-getting-started-pynq-b39925
+
+
+
+
+
+/* ----- Add Xilinx APF driver for XRT platforms ----- */
+7) In terminal:
+	petalinux-config -c kernel
+
+   Check Xilinx APF Accelerator driver and DMA support. Needed photo's also shown here:
+	https://www.hackster.io/bartosz-rycko/minized-2020-1-getting-started-pynq-b39925
+
+
+
+
+
+/* ----- Let's make some modifications to the meta-avnet layer in our project ----- */
+8) Info:
+	Meta-avnet provides yocto information about Avnet development boards, for example Minized. 
+	Petalinux automatically generate device-tree based on XSA you provided. 
+	As we deleted Bluetooth and accelerometer interrupt I should remove their references from device-tree.
+
+8a) Go to /home/<USER>/Avnet202001/petalinux/projects/MinizedFromBSP/project-spec/meta-avnet/recipes-bsp/device-tree/files/minized
+8b) Open system-bsp.dtsi 
+8c) Remove:
+	/* Bluetooth UART.  Goes through EMIO to the 1DX */
+	&bluetooth_uart {
+	   	status = "okay";
+		current-speed = <115200>;
+		port-number = <2>;
+	};
+8d) Remove:
+	/* AXI IIC.  Interfaces with the ST LIS2DS12 accelerometer */
+	&axi_iic_0 {
+		status = "okay";
+
+		/* MiniZed doesn't support interrupts from the accelerometer */
+	    	accel0: lis2ds12@1d {
+			compatible = "st,lis2ds12";
+			reg = <0x1d>;
+	    	};
+
+	};
+8e) Replace '&amba' with:
+	&amba {
+		/delete-node/ ptm@f889d000 ;
+
+		funnel@f8804000 {
+		        in-ports {
+		              /delete-node/ port@1 ;
+		        };
+		};
+		
+		zyxclmm_drm {
+			compatible = "xlnx,zocl";
+			status = "okay";
+		};
+	};
+
+8f)  In terminal in /home/<USER>/Avnet20201/petalinux/projects/MinizedFromBSP: 
+	petalinux-create -t apps --template install -n jupyterandwifi --enable
+
+8g) Go to /home/<USER>/Avnet202001/petalinux/projects/MinizedFromBSP/project-spec/meta-user/recipes-apps/jupyterandwifi
+8h) Open jupyterandwifi.bb
+8i) Change:
+	do_install() {
+		     install -d ${D}/${bindir}
+		     install -m 0755 ${S}/jupyterandwifi ${D}/${bindir}         
+	}
+    To:
+	inherit update-rc.d
+
+	INITSCRIPT_NAME = "jupyterandwifi"
+	INITSCRIPT_PARAMS = "start 99 S ."
+
+	do_install() {
+	     	install -d ${D}${sysconfdir}/init.d
+	     	install -m 0755 ${S}/jupyterandwifi ${D}${sysconfdir}/init.d/jupyterandwifi
+	}
+	FILES_${PN} += "${sysconfdir}/*"
+8j) Go to /home/<USER>/Avnet202001/petalinux/projects/MinizedFromBSP/project-spec/meta-user/recipes-apps/jupyterandwifi/files
+8k) Open jupyterandwifi
+8l) Change:
+	#!/bin/sh
+
+	echo "Hello PetaLinux World"
+    To:
+	#!/bin/sh
+	set -e
+
+	echo "Hello PetaLinux World"
+	FLAG="/usr/local/bin/quicksetup.log"
+
+	#Turn on WIFI
+	cp -f /usr/local/bin/wpa_supplicant.conf /etc/.
+	wpa_supplicant -Dnl80211 -iwlan0 -c /etc/wpa_supplicant.conf -B
+	sleep 2
+	udhcpc -i wlan0 &
+	sleep 1
+
+	#Start jupyter
+	if [ ! -f $FLAG ]; then
+		#Setup jupyter-notebook
+		jupyter-notebook --generate-config
+		jupyter-notebook password
+		touch $FLAG
+	fi
+8m) Go to /home/<USER>/Avnet202001/petalinux/projects/MinizedFromBSP/project-spec/meta-user/conf
+8n) Open user-rootsconfig
+8o) Add:
+CONFIG_python3-pynq
+CONFIG_python3-audio
+CONFIG_python3-pillow
+CONFIG_pynq-overlay
+CONFIG_python3-jupyter
+CONFIG_python3-pandas
+CONFIG_python3-numpy
+CONFIG_libstdc++
+8p) Activate packages:
+In terminal in /home/<USER>/Avnet20201/petalinux/projects/MinizedFromBSP:
+8p.a) petalinux-config -c rootfs
+8p.b) Photo's shown here: 
+https://www.hackster.io/bartosz-rycko/minized-2020-1-getting-started-pynq-b39925
+
+
+
+
+
+/* ----- Change Wifi SSID & Password ----- */
+9a) Go to /home/<USER>/Avnet20201/petalinux/projects/MinizedFromBSP/project-spec/meta-avnet/recipes-utils/minized-misc/files
+9b) Open wpa_supplicant.conf
+
+
+
+
+
+/* ----- Build full image & SDK ----- */
+10) In terminal in /home/<USER>/Avnet20201/petalinux/projects/MinizedFromBSP:
+10a) petalinux-build -c avnet-image-full
+10b) petalinux-build --sdk
+
+
